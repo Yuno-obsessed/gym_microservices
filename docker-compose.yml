@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+      interval: 10s
+      timeout: 10s
+      retries: 1000000
+    volumes:
+      - ./postgres-data/:/var/lib/postgresql/data
+
+  flyway:
+      image: flyway/flyway:latest
+      env_file:
+        - .env
+      command: -url=jdbc:postgresql://postgres:5432/${POSTGRES_DB} -schemas=public -user=${POSTGRES_USER} -password=${POSTGRES_PASSWORD} -connectRetries=60 migrate
+      depends_on:
+        postgres:
+          condition: service_started
+      restart: on-failure
+      volumes:
+        - ./db/migration:/flyway/sql
+
+  prometheus:
+      image: bitnami/prometheus:latest
+      ports:
+        - "9090:9090"
+      volumes:
+        - ./prometheus:/etc/prometheus
+        - prometheus-data:/prometheus
+      command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server --address ":9000" --console-address ":9001" /data
+    #    healthcheck:
+    #      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+    #      interval: 30s
+    #      timeout: 20s
+    #      retries: 3
+    volumes:
+      - /storage/minio:/data
+#  mail-service:
+#    build: MailService/
+#    env_file:
+#      - MailService/.env
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      flyway:
+#        condition: service_completed_successfully
+volumes:
+  postgres-data:
+  prometheus-data:

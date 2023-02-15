@@ -1,0 +1,15 @@
+# my global config
+global:
+  # how frequently to scrape targets. default is 1 minute
+  scrape_interval: 30s
+
+scrape_configs:
+  # the job name is assigned to scraped metrics by default
+  - job_name: 'spring_boot'
+    # the HTTP resource path on which to fetch metrics from targets
+#    metrics_path: /actuator/prometheus
+    # how frequently to scrape targets from this job
+    scrape_interval: 5s
+    # a static_config allows specifying a list of targets and a common label set for them
+    static_configs:
+      - targets: ['user-service:8082']
