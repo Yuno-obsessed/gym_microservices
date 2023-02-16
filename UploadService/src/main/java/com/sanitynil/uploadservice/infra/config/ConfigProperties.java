@@ -6,6 +6,8 @@ import io.minio.MinioClient;
 import io.minio.MinioProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "minio")
 @ConfigurationPropertiesScan
 public class ConfigProperties {
+    private static final Logger logger = LoggerFactory.getLogger(ConfigProperties.class);
     private String accessKey;
     private String secretKey;
     private List<String> buckets;
@@ -28,7 +31,7 @@ public class ConfigProperties {
     public MinioClient minioClient() throws Exception {
         MinioClient minioClient =
                 MinioClient.builder()
-                        .endpoint("minio", 9000, false)
+                        .endpoint("http:localhost/", 9000, false)
                         .credentials(accessKey, secretKey)
                         .region("eu-east-1")
                         .build();
@@ -43,7 +46,7 @@ public class ConfigProperties {
                             .bucket(bucket)
                             .build());
                 } else{
-                    System.out.println("Bucket " + bucket + " already exists");
+                    logger.info("Bucket " + bucket + " already exists");
                 }
             }
       return minioClient;

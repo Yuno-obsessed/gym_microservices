@@ -1,20 +1,22 @@
-package com.sanitynil.uploadservice.infra.storage;
+package com.sanitynil.uploadservice.service;
 
 import com.sanitynil.uploadservice.domain.entity.BucketNames;
+import com.sanitynil.uploadservice.domain.repository.FileObjectActions;
 import io.minio.MinioClient;
 import io.minio.RemoveObjectArgs;
 import io.minio.UploadObjectArgs;
 import io.minio.errors.MinioException;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-@Component
+@Service
 @AllArgsConstructor
-public class Minio {
+public class FileObjectActionsService implements FileObjectActions {
 
     private final MinioClient minioClient;
 
@@ -37,7 +39,7 @@ public class Minio {
 
     public void removeObject(String file, BucketNames bucketName) throws IOException,
             NoSuchAlgorithmException,
-            InvalidKeyException{
+            InvalidKeyException {
         try{
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
@@ -46,8 +48,8 @@ public class Minio {
                             .build()
             );
         } catch (MinioException e){
-           e.printStackTrace();
+            e.printStackTrace();
         }
-        System.out.println("File " + file + " was remover successfully");
+        System.out.println("File " + file + " was removed successfully");
     }
 }

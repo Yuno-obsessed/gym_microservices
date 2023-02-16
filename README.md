@@ -20,4 +20,6 @@
 - [ ] Find a way to build a good architecture
 - [ ] Add business logic ideas (ability to freeze the subscription, different age preferences etc.)
 - [ ] Add country table with predefined values (countries where gyms of network are located only)
+- [ ] Write mock tests + controllers tests
+
 ---

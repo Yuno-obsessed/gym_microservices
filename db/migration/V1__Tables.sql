@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS qr_codes
 CREATE TABLE IF NOT EXISTS mails
 (
     mail_id SERIAL PRIMARY KEY,
+    mail_type VARCHAR(100) NOT NULL,
     email VARCHAR(60) NOT NULL,
     sent_date DATE
 );

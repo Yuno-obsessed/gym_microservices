@@ -59,6 +59,7 @@ services:
     #      retries: 3
     volumes:
       - /storage/minio:/data
+
 #  mail-service:
 #    build: MailService/
 #    env_file:
@@ -68,6 +69,27 @@ services:
 #    depends_on:
 #      flyway:
 #        condition: service_completed_successfully
+
+  upload-service:
+    build: UploadService/
+    environment:
+      LOG_FILE_PATH: /logs/upload-service
+#      POSTGRES_HOST: postgres
+#    env_file:
+#      - UploadService/.env
+    ports:
+      - "8084:8084"
+    depends_on:
+      flyway:
+        condition: service_completed_successfully
+      minio:
+        condition: service_started
+    links:
+      - minio
+      - postgres
+    volumes:
+      - ./logs/upload-service:/logs/upload_service
+
 volumes:
   postgres-data:
   prometheus-data:

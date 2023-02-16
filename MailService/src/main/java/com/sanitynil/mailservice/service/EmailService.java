@@ -1,35 +1,41 @@
 package com.sanitynil.mailservice.service;
 
-import com.sanitynil.mailservice.domain.mail.Email;
-import com.sanitynil.mailservice.domain.mail.EmailRepo;
+import com.sanitynil.mailservice.domain.mail.entity.Email;
+import com.sanitynil.mailservice.domain.mail.repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class EmailService implements EmailRepo {
+public class EmailService {
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private EmailRepository emailRepository;
 
-    @Value("${spring.mail.username}")
-    private String sender;
+    public void save(Email email){
+       emailRepository.save(email);
+    }
 
-    @Override
-    public String sendSimpleMail(Email email) {
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(email.getRecipient());
-            mailMessage.setText(email.getBody());
-            mailMessage.setSubject(email.getSubject());
+    public void delete(Integer id){
+        emailRepository.deleteById(id);
+    }
 
-            javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully.";
-        } catch (Exception e){
-            return "Error Sending mail" + e.getMessage();
-        }
+    public void deleteByEmailAndDate(String email, LocalDate date) {
+        emailRepository.deleteAllByEmailAndSentDate(email,date);
+    }
+
+    public Optional<Email> getById(Integer id){
+        return emailRepository.getEmailByMailId(id);
+    }
+
+    public Optional<List<Email>> getAllByEmail(String email){
+        return emailRepository.getEmailsByEmail(email);
+    }
+
+    public Optional<List<Email>> getAllByEmailAndDate(String email, LocalDate date){
+        return emailRepository.getEmailsByEmailAndSentDate(email,date);
     }
 }

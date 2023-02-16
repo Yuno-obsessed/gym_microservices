@@ -20,14 +20,14 @@ public class UserController {
 
     @GetMapping(value = "/user/all")
     public ResponseEntity<List<User>> getUsers(){
-       return ResponseEntity.status(200).body(userService.findAll());
+       return ResponseEntity.ok(userService.findAll());
     }
 
     @PostMapping(value = "/user/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getUser(@RequestBody UserDao userDao){
         if (userService.findByEmailAndPassword(userDao.getEmail(), userDao.getPassword()).isEmpty()){
-            return ResponseEntity.status(401).body("No such user found");
+            return ResponseEntity.badRequest().build();
     }
-        return ResponseEntity.status(200).body("All good");
+        return ResponseEntity.ok("All good");
     }
 }
