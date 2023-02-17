@@ -5,6 +5,7 @@ import com.sanitynil.uploadservice.domain.repository.FileObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,9 @@ public class FileObjectService {
 
     public void deleteFileObject(FileObject fileObject){
         fileObjectRepository.delete(fileObject);
+    }
+
+    public Optional<List<FileObject>> getAllbyEntity(String entity){
+        return fileObjectRepository.findAllByEntity(entity);
     }
 }

@@ -1,4 +1,4 @@
-package com.sanitynil.authservice.domain.roles;
+package com.sanitynil.authservice.domain.login;
 
 public enum Role {
     ROLE_USER,

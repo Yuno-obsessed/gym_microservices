@@ -1,4 +1,4 @@
-package com.sanitynil.orderservice.domain.entity;
+package com.sanitynil.orderservice.domain.order.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer order_id;
+    @Column(name = "order_status")
+    private String order_status;
     @Column(name = "user_id", nullable = false)
     private Integer user_id;
 }

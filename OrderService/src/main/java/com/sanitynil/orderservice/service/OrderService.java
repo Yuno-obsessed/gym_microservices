@@ -1,7 +1,7 @@
 package com.sanitynil.orderservice.service;
 
-import com.sanitynil.orderservice.domain.entity.Order;
-import com.sanitynil.orderservice.domain.repository.OrderRepository;
+import com.sanitynil.orderservice.domain.order.entity.Order;
+import com.sanitynil.orderservice.domain.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

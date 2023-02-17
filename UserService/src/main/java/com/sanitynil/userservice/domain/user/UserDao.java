@@ -20,21 +20,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDao {
 
-//        @Id
-//        @GeneratedValue(strategy = GenerationType.IDENTITY)
-//        @Column(name = "login_id")
-//        @JsonProperty(value = "login_id")
-//        private long id;
-
-//        @Column(name = "user_id", nullable = false)
-//        @JsonProperty(value = "user_id")
-//        private long userId;
-
-//        @Column(name = "email", length = 50, nullable = false)
         @JsonProperty(value = "email")
         private String email;
 
-//        @Column(name = "password", length = 36, nullable = false)
         @JsonProperty(value = "password")
         private String password;
 }
