@@ -1,8 +1,7 @@
 package com.sanitynil.orderservice.controller;
 
 import com.sanitynil.orderservice.domain.order.entity.Order;
-import com.sanitynil.orderservice.domain.order.entity.OrderEvent;
-import com.sanitynil.orderservice.service.OrderProducer;
+import com.sanitynil.orderservice.infra.config.kafka.OrderProducer;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,19 +16,11 @@ public class OrderController {
 
     private final OrderProducer producer;
 
-    private static Integer id = 0;
 
     @PostMapping("/order/place")
     public ResponseEntity<String> placeOrder(@RequestBody Order order){
-        id++;
-        order.setOrder_id(id);
 
-        OrderEvent orderEvent = new OrderEvent();
-        orderEvent.setStatus("pending");
-        orderEvent.setMessage("order status is in pending state");
-        orderEvent.setOrder(order);
-
-        producer.sendMessage(orderEvent);
+//        producer.sendMessage(order);
 
         return ResponseEntity.ok("Order placed successfully...");
     }

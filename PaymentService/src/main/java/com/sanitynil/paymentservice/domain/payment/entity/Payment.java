@@ -1,5 +1,6 @@
 package com.sanitynil.paymentservice.domain.payment.entity;
 
+import com.sanitynil.paymentservice.infra.config.util.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

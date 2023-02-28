@@ -60,22 +60,23 @@ services:
     volumes:
       - /storage/minio:/data
   zookeeper:
-    image: confluentinc/cp-zookeeper:5.5.0
+    image: 'zookeeper:3.6.2'
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 1
 
   kafka:
-      image: confluentinc/cp-kafka:5.5.0
-      depends_on:
-        - zookeeper
-      environment:
-        KAFKA_BROKER_ID: 1
-        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9095
-        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-        KAFKA_CREATE_TOPICS: "order_topic"
-      ports:
-        - "9095:9095"
+     image: 'confluentinc/cp-kafka:6.2.0'
+     container_name: kafka
+     ports:
+       - '9095:9095'
+     environment:
+       KAFKA_BROKER_ID: 1
+       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9095
+       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
 
 
