@@ -1,5 +1,6 @@
-package com.sanitynil.subscriptionservice.infra.config.exception;
+package com.sanitynil.userservice.infra.config.exception;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

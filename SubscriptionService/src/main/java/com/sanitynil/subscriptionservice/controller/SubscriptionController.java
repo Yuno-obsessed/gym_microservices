@@ -1,6 +1,6 @@
 package com.sanitynil.subscriptionservice.controller;
 
-import com.sanitynil.subscriptionservice.domain.dto.SubscriptionDto;
+import com.sanitynil.subscriptionservice.domain.subscription.SubscriptionDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

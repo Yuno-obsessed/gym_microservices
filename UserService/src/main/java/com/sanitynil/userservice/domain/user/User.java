@@ -1,5 +1,6 @@
 package com.sanitynil.userservice.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(required = false)
     @Column(name = "user_id")
     private Integer userId;
     @Column(name = "username", nullable = false, length = 60)
@@ -29,12 +31,22 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "age")
-    private int age;
-    @Column(name = "country", nullable = false, length = 60)
-    private String country;
+    private Integer age;
+    @Column(name = "city", nullable = false, length = 60)
+    private String city;
 
     public User(String email, String password){
         this.email=email;
         this.password=password;
+    }
+
+    public User(UserCreateDto dto){
+        this.username = dto.getUsername();
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.age = dto.getAge();
+        this.city = dto.getCity();
     }
 }

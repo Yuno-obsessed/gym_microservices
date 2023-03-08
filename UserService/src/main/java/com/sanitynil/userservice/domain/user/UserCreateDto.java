@@ -1,7 +1,6 @@
 package com.sanitynil.userservice.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,17 +11,25 @@ import org.springframework.stereotype.Component;
 // or initialize table login that takes the fields it needs
 // from user table and work with it?
 
-//@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UserDao {
+public class UserCreateDto {
 
+        @JsonProperty(value = "username")
+        private String username;
+        @JsonProperty(value = "first_name")
+        private String firstName;
+        @JsonProperty(value = "last_name")
+        private String lastName;
         @JsonProperty(value = "email")
         private String email;
-
         @JsonProperty(value = "password")
         private String password;
+        @JsonProperty(value = "age")
+        private Integer age;
+        @JsonProperty(value = "city")
+        private String city;
 }
